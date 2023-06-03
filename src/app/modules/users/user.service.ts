@@ -8,6 +8,7 @@ const createUser = async (user: IUser): Promise<IUser | null> => {
   // auto generated incremental id
   const id = await generateUserId()
   user.id = id
+
   // default password
 
   if (!user.password) {
