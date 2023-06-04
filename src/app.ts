@@ -1,8 +1,7 @@
 import express, { Application, Request, Response } from 'express'
 const app: Application = express()
 import cors from 'cors'
-import usersRouter from './app/modules/users/user.route'
-import userService from './app/modules/users/user.service'
+
 
 // middleware
 app.use(cors())
