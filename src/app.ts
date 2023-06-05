@@ -16,3 +16,15 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 export default app
+
+// "no-console": "error",
+// "no-undef": "error",
+// "no-unused-expressions": "error",
+// "no-unreachable": "error",
+
+// .vscode, setting.json file e {
+//     "editor.codeActionsOnSave":{
+//       "source.fixAll.eslint":true,
+//       "source.organizeImports":true
+//   }
+// }
