@@ -1,8 +1,5 @@
-import { Model, Schema, model } from 'mongoose'
-import { IUser } from './user.interface'
-
-// we can use static method in future so it is defined
-type UserModel = Model<IUser, object>
+import { Schema, model } from 'mongoose'
+import { IUser, UserModel } from './user.interface'
 
 const userSchema = new Schema<IUser>(
   {
