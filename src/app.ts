@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application, Response } from 'express'
 const app: Application = express()
 import cors from 'cors'
 
@@ -14,7 +14,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/users/', UserRoute)
 
 // for testing
-app.get('/', (req: Request, res: Response) => {
+
+app.get('/', (res: Response) => {
+  // Promise.reject(new Error("Unhandled promise rejection"))
+
+  // throw new Error("testing error logger");
+
   res.send('Work Successfully')
 })
 
@@ -25,7 +30,6 @@ app.use(globalErrorHandler)
 export default app
 
 /*
-
 
  "no-console": "error",
    "no-undef": "error",
