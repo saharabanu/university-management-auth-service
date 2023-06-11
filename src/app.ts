@@ -1,3 +1,4 @@
+import { AcademicSemesterRoute } from './app/modules/academicSemister/academicSemester.route';
 import express, { Application, Response, Request } from 'express';
 const app: Application = express();
 import cors from 'cors';
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/users/', UserRoute);
+app.use('/api/v1/academic-semesters', AcademicSemesterRoute);
 
 // for testing
 
