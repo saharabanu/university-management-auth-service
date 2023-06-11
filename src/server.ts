@@ -1,8 +1,8 @@
+import { Server } from 'http'
 import mongoose from 'mongoose'
 import app from './app'
-import config from './config'
 import { errorLogger, logger } from './shared/logger'
-import { Server } from 'http'
+import config from './config'
 
 // uncaught exception error
 

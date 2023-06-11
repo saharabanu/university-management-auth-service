@@ -16,7 +16,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 const logger = createLogger({
   level: 'info',
   format: combine(
-    label({ label: 'Alhamdulillah' }),
+    label({ label: 'UNM' }),
     timestamp(),
     myFormat
     // prettyPrint()
