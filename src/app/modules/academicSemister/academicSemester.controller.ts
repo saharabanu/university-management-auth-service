@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { AcademicSemieterService } from './academicSemester.service';
+import { AcademicSemesterService } from './academicSemester.service';
 
 const createAcademicSemesterController: RequestHandler = async (
   req,
@@ -8,7 +8,7 @@ const createAcademicSemesterController: RequestHandler = async (
 ) => {
   try {
     const { ...academicSemesterData } = req.body;
-    const result = await AcademicSemieterService.createSemester(
+    const result = await AcademicSemesterService.createSemester(
       academicSemesterData
     );
     res.status(200).json({
