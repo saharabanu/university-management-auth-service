@@ -2,5 +2,5 @@ export type IPaginationOptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'sc' | 'desc';
+  sortOrder?: 'asc' | 'desc';
 };
