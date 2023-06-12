@@ -10,7 +10,6 @@ const createAcademicSemesterController = catchAsync(
     const result = await AcademicSemesterService.createSemester(
       academicSemesterData
     );
-    next();
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -18,11 +17,8 @@ const createAcademicSemesterController = catchAsync(
       message: 'academic Semester created successfully',
       data: result,
     });
-    // res.status(200).json({
-    //   success: true,
-    //   message: 'academic semester created successfully',
-    //   data: result,
-    // });
+
+    next();
   }
 );
 
