@@ -15,6 +15,7 @@ import {
 } from './academicSemister.interface';
 import httpStatus from 'http-status';
 
+// post a single semester
 const createSemester = async (
   payload: IAcademicSemester
 ): Promise<IAcademicSemester> => {
@@ -25,6 +26,8 @@ const createSemester = async (
   const result = await AcademicSemester.create(payload);
   return result;
 };
+
+// get all semsesters
 
 const getAllSemesters = async (
   filters: IAcademicSemesterFilters,
@@ -82,8 +85,11 @@ const getAllSemesters = async (
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
+  // this condition is used for getting all semesters without any searching, page or limit etc
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const result = await AcademicSemester.find({ $and: andConditions })
+  const result = await AcademicSemester.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
@@ -100,7 +106,16 @@ const getAllSemesters = async (
   };
 };
 
+// get single semester
+const getSingleSemester = async (
+  id: string
+): Promise<IAcademicSemester | null> => {
+  const result = await AcademicSemester.findById(id);
+  return result;
+};
+
 export const AcademicSemesterService = {
   createSemester,
   getAllSemesters,
+  getSingleSemester,
 };
