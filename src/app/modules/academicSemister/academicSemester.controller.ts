@@ -20,11 +20,10 @@ const createAcademicSemesterController = catchAsync(
       success: true,
       message: 'academic Semester created successfully',
       meta: {
-        page: 1, // Replace with the actual page number
-        limit: 10, // Replace with the actual limit per page
-        total: 100, // Replace with the actual total number of records
+        page: 0, // Replace with the actual page number
+        limit: 0, // Replace with the actual limit per page
+        total: 0, // Replace with the actual total number of records
       },
-
       data: result,
     });
 
@@ -36,9 +35,12 @@ const createAcademicSemesterController = catchAsync(
 
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const filters = pick(req.query, ['searchTerm']);
+
     const paginationOptions = pick(req.query, pagination);
 
     const result = await AcademicSemesterService.getAllSemesters(
+      filters,
       paginationOptions
     );
 
