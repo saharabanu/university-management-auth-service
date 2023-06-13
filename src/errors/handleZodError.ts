@@ -13,7 +13,7 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
 
   return {
     statusCode,
-    message: 'Validation Error',
+    message: 'Handle Zod Error',
     errorMessages: errors,
   };
 };
