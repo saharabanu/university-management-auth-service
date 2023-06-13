@@ -6,6 +6,7 @@ import httpStatus from 'http-status';
 import sendResponse from '../../../shared/sendResponse';
 import pick from '../../../shared/pick';
 import { IAcademicSemester } from './academicSemister.interface';
+import { academicSemesterFilterableFields } from './academicSemester.constant';
 
 // create academic semester
 const createAcademicSemesterController = catchAsync(
@@ -35,7 +36,7 @@ const createAcademicSemesterController = catchAsync(
 
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const filters = pick(req.query, ['searchTerm']);
+    const filters = pick(req.query, academicSemesterFilterableFields);
 
     const paginationOptions = pick(req.query, pagination);
 
