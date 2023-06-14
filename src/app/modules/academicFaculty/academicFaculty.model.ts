@@ -12,7 +12,12 @@ const academicFacultySchema = new Schema<IAcademicFaculty>(
       required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 // for checking and control same same semester
