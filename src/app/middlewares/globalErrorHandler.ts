@@ -10,7 +10,7 @@ import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
 import handleCastError from '../../errors/handleCastError';
 
-const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
+const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   // to console
 
   config.env === 'development'
@@ -65,6 +65,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
     errorMessages,
     stack: config.env !== 'production' ? error?.stack : undefined,
   });
+  next();
 };
 
 export default globalErrorHandler;
