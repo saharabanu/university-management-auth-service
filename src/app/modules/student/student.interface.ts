@@ -46,3 +46,12 @@ export type IStudent = {
 
 // we can use static method in future so it is defined
 export type StudentModel = Model<IStudent, Record<string, unknown>>;
+
+export type IStudentFilters = {
+  searchTerm?: string;
+  id?: string;
+  email?: string;
+  bloodGroup?: string;
+  contactNo?: string;
+  emergencyContactNo?: string;
+};
