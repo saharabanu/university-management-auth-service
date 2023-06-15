@@ -33,6 +33,8 @@ export const generateStudentId = async (
   return incrementedById;
 };
 
+// generate faculty id
+
 const findLastFacultyId = async () => {
   const lastFaculty = await User.findOne(
     {
