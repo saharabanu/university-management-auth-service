@@ -30,50 +30,53 @@ const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
 
 // get Single student
 
-// const getSingleSemester = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const getSingleStudent: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id;
 
-//   const result = await AcademicSemesterService.getSingleSemester(id);
+  const result = await StudentService.getSingleStudent(id);
 
-//   sendResponse<IAcademicSemester>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'SIngle academic Semester retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IStudent>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'SIngle  Student retrieved successfully',
+    data: result,
+  });
+});
 
 // update Student
 
-// const updateSemester = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
-//   const updatedData = req.body;
+const updateStudent: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
 
-//   const result = await AcademicSemesterService.updateSemester(id, updatedData);
+  const result = await StudentService.updateStudent(id, updatedData);
 
-//   sendResponse<IAcademicSemester>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Update SIngle academic Semester retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IStudent>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: ' Single a Student Updated successfully',
+    data: result,
+  });
+});
 
 // DELETE Student
 
-// const deleteSemester = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id;
 
-//   const result = await AcademicSemesterService.deleteSemester(id);
+  const result = await StudentService.deleteStudent(id);
 
-//   sendResponse<IAcademicSemester>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: ' a single academic Semester deleted successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IStudent>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: ' a single  Student deleted successfully',
+    data: result,
+  });
+});
 
 export const StudentsController = {
   getAllStudents,
+  getSingleStudent,
+  updateStudent,
+  deleteStudent,
 };
