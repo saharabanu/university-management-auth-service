@@ -11,14 +11,14 @@ export type IUserName = {
 export type IFaculty = {
   id: string;
   name: IUserName;
-  gender: 'male' | 'female';
-  dateOfBirth: string;
+  gender?: 'male' | 'female';
+  dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
   presentAddress: string;
-  permanentAddress: string;
-  designation: string; // it is my doubt
+  permanentAddress?: string;
+  designation: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   academicDepartment: Types.ObjectId | IAcademicDepartment;
   academicFaculty: Types.ObjectId | IAcademicFaculty;
@@ -32,7 +32,11 @@ export type IFacultyFilters = {
   searchTerm?: string;
   id?: string;
   email?: string;
-  bloodGroup?: string;
   contactNo?: string;
   emergencyContactNo?: string;
+  gender?: 'male' | 'female';
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  academicDepartment?: string;
+  academicFaculty?: string;
+  designation?: string;
 };

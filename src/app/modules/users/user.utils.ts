@@ -60,3 +60,30 @@ export const generateFacultyId = async () => {
 
   return incrementedById;
 };
+// generate admin id
+
+const findLastAdminId = async () => {
+  const lastAdmin = await User.findOne(
+    {
+      role: 'admin',
+    },
+    { id: 1, _id: 0 }
+  )
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  return lastAdmin?.id ? lastAdmin.id.substring(2) : undefined;
+};
+
+// to find creating Faculty user id
+
+export const generateAdminId = async () => {
+  const currentId =
+    (await findLastAdminId()) || (0).toString().padStart(5, '0');
+  let incrementedById = (parseInt(currentId) + 1).toString().padStart(5, '0');
+  incrementedById = `A-${incrementedById} `;
+
+  return incrementedById;
+};

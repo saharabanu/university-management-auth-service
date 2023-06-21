@@ -59,7 +59,7 @@ export const FacultySchema = new Schema<IFaculty, FacultyModel>(
       type: String,
       enum: bloodGroup,
     },
-    // it is my doubt
+
     designation: {
       type: String,
       required: true,

@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import mongoose, { SortOrder } from 'mongoose';
-import { IUser } from '../users/user.interface';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
+import { IUser } from '../users/user.interface';
+import config from '../../../config';
+import { generateFacultyId } from '../users/user.utils';
+import { Faculty } from './faculty.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-import { Faculty } from './faculty.model';
-import { generateFacultyId } from '../users/user.utils';
 import { User } from '../users/user.model';
-import config from '../../../config';
-import { facultySearchableFields } from './faculty.constant';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
+import { facultySearchableFields } from './faculty.constant';
 import { paginationHelper } from '../../../helpers/paginationHelper';
 
 const createFaculty = async (
@@ -26,7 +26,7 @@ const createFaculty = async (
   // Set role
   user.role = 'faculty';
 
-  const academicFaculty = await Faculty.findById(faculty.academicFaculty);
+  // const academicFaculty = await Faculty.findById(faculty.academicFaculty);
 
   let newUserAllData = null;
   const session = await mongoose.startSession();
@@ -35,7 +35,7 @@ const createFaculty = async (
     session.startTransaction();
 
     // Auto-generated incremental id
-    const id = await generateFacultyId(academicFaculty);
+    const id = await generateFacultyId();
     user.id = id;
     faculty.id = id;
 
@@ -147,49 +147,36 @@ const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
   return result;
 };
 
-// Update single Student
-// const updateStudent = async (
-//   id: string,
-//   payload: Partial<IStudent>
-// ): Promise<IStudent | null> => {
-//   const isExist = await Student.findOne({ id });
-//   if (!isExist) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Student Not Found');
-//   }
+// Update single Faculty
+const updateFaculty = async (
+  id: string,
+  payload: Partial<IFaculty>
+): Promise<IFaculty | null> => {
+  const isExist = await Faculty.findOne({ id });
+  console.log(isExist);
 
-//   /// for embed field
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty Not Found');
+  }
 
-//   const { name, guardian, localGuardian, ...studentData } = payload;
-//   const updatedStudentData: Partial<IStudent> = { ...studentData };
+  /// for embed field
 
-//   //dynamically handling
-//   if (name && Object.keys(name).length > 0) {
-//     Object.keys(name).forEach(key => {
-//       const nameKey = `name.${key}` as keyof Partial<IStudent>;
-//       (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
-//     });
-//   }
-//   if (guardian && Object.keys(guardian).length > 0) {
-//     Object.keys(guardian).forEach(key => {
-//       const guardianKey = `guardian.${key}` as keyof Partial<IStudent>;
-//       (updatedStudentData as any)[guardianKey] =
-//         guardian[key as keyof typeof guardian];
-//     });
-//   }
-//   if (localGuardian && Object.keys(localGuardian).length > 0) {
-//     Object.keys(localGuardian).forEach(key => {
-//       const localGuardianKey =
-//         `localGuardian.${key}` as keyof Partial<IStudent>;
-//       (updatedStudentData as any)[localGuardianKey] =
-//         localGuardian[key as keyof typeof localGuardian];
-//     });
-//   }
+  const { name, ...facultyData } = payload;
+  const updatedFacultyData: Partial<IFaculty> = { ...facultyData };
 
-//   const result = await Student.findOneAndUpdate({ id }, updatedStudentData, {
-//     new: true,
-//   });
-//   return result;
-// };
+  //dynamically handling
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}` as keyof Partial<IFaculty>;
+      (updatedFacultyData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+
+  const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
+    new: true,
+  });
+  return result;
+};
 
 // delete Faculty
 
@@ -204,5 +191,6 @@ export const FacultyService = {
   createFaculty,
   getAllFacultys,
   getSingleFaculty,
+  updateFaculty,
   deleteFaculty,
 };

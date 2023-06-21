@@ -17,7 +17,7 @@ const createFaculty: RequestHandler = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'faculty created successfully',
+    message: '(Faculty) User created successfully',
     data: result,
   });
 });
@@ -57,6 +57,21 @@ const getAllFacultys: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+// Update Faculty
+
+const updateFaculty: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+
+  const result = await FacultyService.updateFaculty(id, updatedData);
+
+  sendResponse<IFaculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: '  Faculty updated successfully',
+    data: result,
+  });
+});
 // DELETE Faculty
 
 const deleteFaculty: RequestHandler = catchAsync(async (req, res) => {
@@ -76,5 +91,6 @@ export const FacultyController = {
   createFaculty,
   getAllFacultys,
   getSingleFaculty,
+  updateFaculty,
   deleteFaculty,
 };

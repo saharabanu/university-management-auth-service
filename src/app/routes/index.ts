@@ -1,3 +1,4 @@
+import { ManagementDepartmentRoute } from './../modules/managementDepartment/managementDepartment.route';
 import express from 'express';
 import { UserRoute } from '../modules/users/user.route';
 import { AcademicSemesterRoute } from '../modules/academicSemister/academicSemester.route';
@@ -24,6 +25,10 @@ const moduleRoutes = [
   {
     path: '/academic-departments',
     route: AcademicDepartmentRoute,
+  },
+  {
+    path: '/management-departments',
+    route: ManagementDepartmentRoute,
   },
   {
     path: '/students',
