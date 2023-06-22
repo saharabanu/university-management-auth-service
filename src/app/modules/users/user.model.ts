@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from 'mongoose';
-import { IUser, UserModel } from './user.interface';
+import { IUser, IUserMethods, UserModel } from './user.interface';
 import config from '../../../config';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, Record<string, never>, IUserMethods>(
   {
     id: {
       type: String,
@@ -44,6 +44,28 @@ const userSchema = new Schema<IUser>(
     },
   }
 );
+// for methods
+userSchema.methods.isUserExist = async function (
+  id: string
+): Promise<Partial<IUser> | null> {
+  return await User.findOne(
+    { id },
+    {
+      id: 1,
+      password: 1,
+      needsPasswordChange: 1,
+      role: 1,
+    }
+  );
+};
+userSchema.methods.isPasswordMatched = async function (
+  givenPassword: string,
+  savedPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(givenPassword, savedPassword);
+};
+
+// for hashing password
 
 userSchema.pre('save', async function (next) {
   // hashing password
