@@ -56,7 +56,7 @@ export const generateFacultyId = async () => {
   const currentId =
     (await findLastFacultyId()) || (0).toString().padStart(5, '0');
   let incrementedById = (parseInt(currentId) + 1).toString().padStart(5, '0');
-  incrementedById = `F-${incrementedById} `;
+  incrementedById = `F-${incrementedById}`;
 
   return incrementedById;
 };
@@ -83,7 +83,7 @@ export const generateAdminId = async () => {
   const currentId =
     (await findLastAdminId()) || (0).toString().padStart(5, '0');
   let incrementedById = (parseInt(currentId) + 1).toString().padStart(5, '0');
-  incrementedById = `A-${incrementedById} `;
+  incrementedById = `A-${incrementedById}`;
 
   return incrementedById;
 };

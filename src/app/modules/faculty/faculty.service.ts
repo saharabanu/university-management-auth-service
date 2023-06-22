@@ -2,87 +2,16 @@
 
 import mongoose, { SortOrder } from 'mongoose';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
-import { IUser } from '../users/user.interface';
-import config from '../../../config';
-import { generateFacultyId } from '../users/user.utils';
+
 import { Faculty } from './faculty.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-import { User } from '../users/user.model';
+
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { facultySearchableFields } from './faculty.constant';
 import { paginationHelper } from '../../../helpers/paginationHelper';
-
-const createFaculty = async (
-  faculty: IFaculty,
-  user: IUser
-): Promise<IUser | null> => {
-  // Default password
-  if (!user.password) {
-    user.password = config.default_faculty_pass as string;
-  }
-
-  // Set role
-  user.role = 'faculty';
-
-  // const academicFaculty = await Faculty.findById(faculty.academicFaculty);
-
-  let newUserAllData = null;
-  const session = await mongoose.startSession();
-
-  try {
-    session.startTransaction();
-
-    // Auto-generated incremental id
-    const id = await generateFacultyId();
-    user.id = id;
-    faculty.id = id;
-
-    // Create faculty
-    const newFaculty = await Faculty.create([faculty], { session });
-    if (newFaculty.length === 0) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'Failed to create new Faculty!'
-      );
-    }
-
-    // Set faculty _id into user
-    user.faculty = newFaculty[0]._id;
-
-    // Create user
-    const newUser = await User.create([user], { session });
-    if (newUser.length === 0) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user!');
-    }
-
-    newUserAllData = newUser[0];
-
-    await session.commitTransaction();
-    await session.endSession();
-  } catch (error) {
-    await session.abortTransaction();
-    await session.endSession();
-    throw error;
-  }
-
-  if (newUserAllData) {
-    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
-      path: 'faculty',
-      populate: [
-        {
-          path: 'academicDepartment',
-        },
-        {
-          path: 'academicFaculty',
-        },
-      ],
-    });
-  }
-
-  return newUserAllData;
-};
+import { User } from '../users/user.model';
 
 // get all Faculties
 
@@ -153,7 +82,6 @@ const updateFaculty = async (
   payload: Partial<IFaculty>
 ): Promise<IFaculty | null> => {
   const isExist = await Faculty.findOne({ id });
-  console.log(isExist);
 
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Faculty Not Found');
@@ -162,6 +90,7 @@ const updateFaculty = async (
   /// for embed field
 
   const { name, ...facultyData } = payload;
+
   const updatedFacultyData: Partial<IFaculty> = { ...facultyData };
 
   //dynamically handling
@@ -183,12 +112,35 @@ const updateFaculty = async (
 //why does not user delete in this function
 
 const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
-  const result = await Faculty.findByIdAndDelete(id);
-  return result;
+  // check if the faculty is exist
+  const isExist = await Faculty.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    //delete faculty first
+    const faculty = await Faculty.findOneAndDelete({ id }, { session });
+    if (!faculty) {
+      throw new ApiError(404, 'Failed to faculty admin');
+    }
+    //delete user
+    await User.deleteOne({ id });
+    session.commitTransaction();
+    session.endSession();
+
+    return faculty;
+  } catch (error) {
+    session.abortTransaction();
+    throw error;
+  }
 };
 
 export const FacultyService = {
-  createFaculty,
   getAllFacultys,
   getSingleFaculty,
   updateFaculty,

@@ -8,20 +8,6 @@ import pick from '../../../shared/pick';
 import { facultyFilterableFields } from './faculty.constant';
 import { pagination } from '../../../constants/pagination';
 
-//create Faculty
-
-const createFaculty: RequestHandler = catchAsync(async (req, res) => {
-  const { faculty, ...facultyData } = req.body;
-  const result = await FacultyService.createFaculty(faculty, facultyData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: '(Faculty) User created successfully',
-    data: result,
-  });
-});
-
 // get Single Faculty
 
 const getSingleFaculty: RequestHandler = catchAsync(async (req, res) => {
@@ -61,6 +47,7 @@ const getAllFacultys: RequestHandler = catchAsync(async (req, res) => {
 
 const updateFaculty: RequestHandler = catchAsync(async (req, res) => {
   const id = req.params.id;
+  console.log(id);
   const updatedData = req.body;
 
   const result = await FacultyService.updateFaculty(id, updatedData);
@@ -88,7 +75,6 @@ const deleteFaculty: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const FacultyController = {
-  createFaculty,
   getAllFacultys,
   getSingleFaculty,
   updateFaculty,
