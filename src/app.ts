@@ -58,6 +58,16 @@ export default app;
        "source.organizeImports":true
    }
  }
-
+ ts config
+{
+  "compilerOptions": {
+    "typeRoots" : ["./node_modules/@types", "./typings"]
+  }
+}
+{
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./src/*"]
+  }
+}
  
 */

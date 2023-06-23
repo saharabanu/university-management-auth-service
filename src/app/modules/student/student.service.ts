@@ -134,12 +134,14 @@ const deleteStudent = async (id: string): Promise<IStudent | null> => {
   try {
     session.startTransaction();
     //delete student first
-    const student = await Student.findOneAndDelete({ id }, { session });
+    const student = await Student.findOneAndDelete({ id }).session(session);
     if (!student) {
       throw new ApiError(404, 'Failed to delete student');
     }
+
     //delete user
-    await User.deleteOne({ id });
+    await User.findOneAndDelete({ id });
+
     session.commitTransaction();
     session.endSession();
 
