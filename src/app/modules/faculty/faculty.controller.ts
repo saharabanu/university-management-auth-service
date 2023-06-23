@@ -47,7 +47,7 @@ const getAllFacultys: RequestHandler = catchAsync(async (req, res) => {
 
 const updateFaculty: RequestHandler = catchAsync(async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+
   const updatedData = req.body;
 
   const result = await FacultyService.updateFaculty(id, updatedData);
