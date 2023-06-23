@@ -39,7 +39,6 @@ const logInUser = async (
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string
   );
-  console.log(accessToken, refreshToken, needsPasswordChange);
 
   return {
     accessToken,
