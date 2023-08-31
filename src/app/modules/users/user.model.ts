@@ -99,6 +99,10 @@ userSchema.pre('save', async function (next) {
     Number(config.bcrypt_salt_round)
   );
 
+  if (!user.needsPasswordChange) {
+    this.passwordChangeAt = new Date();
+  }
+
   next();
 });
 
